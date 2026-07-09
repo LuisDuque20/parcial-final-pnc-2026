@@ -26,7 +26,7 @@ public class BookService {
         Book book = new Book();
         book.setTitle(dto.getTitle());
         book.setAuthor(dto.getAuthor());
-        book.setGenre(Genre.valueOf(dto.getGenre()));
+        book.setGenre(Genre.valueOf(dto.getGenre().toUpperCase()));
         book.setIsbn(dto.getIsbn());
         book.setAvailable(dto.isAvailable());
         book.setAvailableCount(dto.getAvailableCount());
@@ -41,7 +41,7 @@ public class BookService {
 
     public List<Book> getAllBooks(String author, String genre) {
         if (author != null && genre != null) {
-            return bookRepository.findByAuthorAndGenre(genre, author);
+            return bookRepository.findByAuthorAndGenre(author, Genre.valueOf(genre.toUpperCase()));
         } else if (author != null) {
             return bookRepository.findByAuthor(author);
         } else if (genre != null) {
@@ -76,6 +76,9 @@ public class BookService {
         Map<String, Long> countByGenre = new HashMap<>();
 
         for (Book book : books) {
+            if (book.getGenre() == null) {
+                continue;
+            }
             String genreName = book.getGenre().name();
             countByGenre.put(genreName, countByGenre.getOrDefault(genreName, 0L) + 1);
         }
