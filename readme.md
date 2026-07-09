@@ -1,4 +1,4 @@
-# [Nombre] [Carné]
+# Luis Fernando Duque Pacheco 00013423
 
 ## Indicaciones
 
